@@ -66,7 +66,7 @@ def create_accounts():
 def list_accounts():
     """ list all accounts"""
     app.logger.info("Request to list all accounts")
-    accounts=Account.all()
+    accounts = Account.all()
     if not accounts:
         abort(status.HTTP_404_NOT_FOUND, "No Account Found")
     accounts_dict = [account.serialize() for account in accounts]
@@ -83,7 +83,6 @@ def get_accounts(account_id):
     This endpoint will read an Account based the account_id that is requested
     """
     app.logger.info("Request to read an Account with id: %s", account_id)
-        
     account = Account.find(account_id)
     
     if not account:
