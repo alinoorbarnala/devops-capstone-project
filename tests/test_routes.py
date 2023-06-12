@@ -124,3 +124,51 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
+    def test_get_account(self):
+        """ --My Test-- It should read single account"""
+        account= self._create_accounts(1)[0]
+        resp = self.client.get(
+            f"{BASE_URL}/{account.id}", content_type="application/json"
+        )
+        print(f"{BASE_URL}/{account.id}")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(data["name"],account.name)
+
+    def test_get_account_not_found(self):
+        """ --My Test-- It should not Read an Account that is not found"""
+        resp = self.client.get(f"{BASE_URL}/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_list_accounts(self):
+        """ --MY Test-- It should list all user accounts"""
+        account= self._create_accounts(5)[0]
+        resp = self.client.get(BASE_URL)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    def test_delete_account(self):
+        """--My Test-- It Should delete account"""
+        account= self._create_accounts(1)[0]
+        resp = self.client.delete(
+            f"{BASE_URL}/{account.id}", content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_account_not_found(self):
+        """ --My Test-- It should not Delete an Account that is not found"""
+        resp = self.client.delete(f"{BASE_URL}/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_account(self):
+        """--My Test-- It Should update account"""
+        account= self._create_accounts(1)[0]
+        account.name="Ali"
+        resp = self.client.put(
+            f"{BASE_URL}/{account.id}", content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    def test_update_account_not_found(self):
+        """ --My Test-- It should not update an Account that is not found"""
+        resp = self.client.put(f"{BASE_URL}/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)     
