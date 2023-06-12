@@ -102,7 +102,7 @@ def update_accounts(account_id):
     This endpoint will update an Account based the account_id that is requested
     """
     app.logger.info("Request to update an Account with id: %s", account_id)
-        
+ 
     account = Account.find(account_id)
 
     if not account:
