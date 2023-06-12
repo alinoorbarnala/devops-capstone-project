@@ -52,7 +52,7 @@ def create_accounts():
     message = account.serialize()
     # Uncomment once get_accounts has been implemented
     location_url = url_for("get_accounts", account_id=account.id, _external=True)
-    #location_url = "/"  # Remove once get_accounts has been implemented
+    # location_url = "/"  # Remove once get_accounts has been implemented
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
@@ -61,12 +61,12 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """ list all accounts"""
     app.logger.info("Request to list all accounts")
     accounts=Account.all()
-    
     if not accounts:
         abort(status.HTTP_404_NOT_FOUND, "No Account Found")
     accounts_dict = [account.serialize() for account in accounts]
@@ -129,8 +129,7 @@ def delete_accounts(account_id):
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")  
     Account.delete(account)
-    return "",status.HTTP_204_NO_CONTENT 
-
+    return "" , status.HTTP_204_NO_CONTENT 
 
 
 ######################################################################
@@ -146,5 +145,5 @@ def check_content_type(media_type):
     app.logger.error("Invalid Content-Type: %s", content_type)
     abort(
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-        f"Content-Type must be {media_type}",
+        f"Content-Type must be {media_type}"
     )
