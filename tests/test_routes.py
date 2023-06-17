@@ -145,7 +145,7 @@ class TestAccountService(TestCase):
         account = self._create_accounts(5)[0]
         resp = self.client.get(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertEqual(account,account)
+        self.assertEqual(account, account)
 
     def test_delete_account(self):
         """--My Test-- It Should delete account"""
