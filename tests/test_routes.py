@@ -24,6 +24,7 @@ HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
+
 class TestAccountService(TestCase):
     """Account Service Tests"""
 
@@ -128,14 +129,14 @@ class TestAccountService(TestCase):
     # ADD YOUR TEST CASES HERE ...
     def test_get_account(self):
         """ --My Test-- It should read single account"""
-        account= self._create_accounts(1)[0]
+        account = self._create_accounts(1)[0]
         resp = self.client.get(
             f"{BASE_URL}/{account.id}", content_type="application/json"
         )
         print(f"{BASE_URL}/{account.id}")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
-        self.assertEqual(data["name"],account.name)
+        self.assertEqual(data["name"], account.name)
 
     def test_get_account_not_found(self):
         """ --My Test-- It should not Read an Account that is not found"""
@@ -144,13 +145,13 @@ class TestAccountService(TestCase):
 
     def test_list_accounts(self):
         """ --MY Test-- It should list all user accounts"""
-        account= self._create_accounts(5)[0]
+        account = self._create_accounts(5)[0]
         resp = self.client.get(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
     def test_delete_account(self):
         """--My Test-- It Should delete account"""
-        account= self._create_accounts(1)[0]
+        account = self._create_accounts(1)[0]
         resp = self.client.delete(
             f"{BASE_URL}/{account.id}", content_type="application/json"
         )
@@ -166,7 +167,7 @@ class TestAccountService(TestCase):
         test_account = AccountFactory()
         resp = self.client.post(BASE_URL, json=test_account.serialize())
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
-        
+    
         # update the account
         new_account = resp.get_json()
         new_account["name"] = "Ali"
@@ -175,11 +176,10 @@ class TestAccountService(TestCase):
         updated_account = resp.get_json()
         self.assertEqual(updated_account["name"], "Ali")
 
-
     def test_update_account_not_found(self):
         """ --My Test-- It should not update an Account that is not found"""
         resp = self.client.put(f"{BASE_URL}/0")
-        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)     
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
